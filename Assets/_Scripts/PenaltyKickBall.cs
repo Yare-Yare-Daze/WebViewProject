@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class PenaltyKickBall : MonoBehaviour
 
     private bool needUpdateForceDir = true;
     private Rigidbody ballRB;
+
+    public Action OnKicked;
 
     public Vector3 KickForce
     {
@@ -47,6 +50,7 @@ public class PenaltyKickBall : MonoBehaviour
     private void OnPlayerKickedHandler()
     {
         ballRB.AddForce(kickForce, ForceMode.Impulse);
+        OnKicked?.Invoke();
         Debug.Log("kickForce on handler: " + kickForce);
     }
 }
