@@ -14,7 +14,7 @@ public class InputDirectionKick : MonoBehaviour
     private bool isIncreaseForce = true;
     private float impactForce;
 
-    public Action<float> OnKick;
+    public Action<float, Vector3> OnKick;
 
     public Vector3 DirectionKick
     {
@@ -33,7 +33,7 @@ public class InputDirectionKick : MonoBehaviour
 
     private void Start()
     {
-        
+
     }
 
     private void Update()
@@ -43,33 +43,33 @@ public class InputDirectionKick : MonoBehaviour
             touch = Input.GetTouch(0);
 
             // Increase impact force
-            if(touch.phase == TouchPhase.Stationary)
+            if (touch.phase == TouchPhase.Stationary)
             {
                 if (isIncreaseForce && touchHoldTime >= timeToMaxForce)
                 {
                     isIncreaseForce = false;
                 }
-                else if (!isIncreaseForce && touchHoldTime <= 0f) 
+                else if (!isIncreaseForce && touchHoldTime <= 0f)
                 {
                     isIncreaseForce = true;
                 }
 
-                if(isIncreaseForce)
+                if (isIncreaseForce)
                 {
                     touchHoldTime += Time.deltaTime;
-                    
+
                 }
                 else
                 {
                     touchHoldTime -= Time.deltaTime;
                 }
-                
+
                 float deltaFroceNormalized = touchHoldTime / timeToMaxForce;
                 impactForce = deltaFroceNormalized * maxImpactForce;
-                Debug.Log("impactForce: " + impactForce);
+                //Debug.Log("impactForce: " + impactForce);
             }
 
-            if(touch.phase == TouchPhase.Moved)
+            if (touch.phase == TouchPhase.Moved)
             {
                 Vector3 touchMoveToViewport = Camera.main.ScreenToViewportPoint(touch.position);
 
@@ -84,13 +84,14 @@ public class InputDirectionKick : MonoBehaviour
                     directionKick.z = (touchMoveToViewport.x - 0.5f) / 0.5f;
                 }
 
-                Debug.Log("Touch position: " + touchMoveToViewport);
+                //Debug.Log("Touch position: " + touchMoveToViewport);
             }
         }
     }
 
     public void OnClickKickButton()
     {
-        OnKick?.Invoke(ImpactForce);
+        OnKick?.Invoke(ImpactForce, DirectionKick);
+
     }
 }

@@ -6,8 +6,11 @@ public class PenaltyKickBall : MonoBehaviour
 {
     [SerializeField] private Transform ballTransform;
     [SerializeField] private InputDirectionKick inputDirectionKick;
+    [SerializeField] private PlayerMoveToBall playerMoveToBall;
+    [SerializeField] private Vector3 kickForce;
+    [SerializeField] private Vector3 kickForceTest;
 
-    private Vector3 kickForce;
+    private bool needUpdateForceDir = true;
     private Rigidbody ballRB;
 
     public Vector3 KickForce
@@ -19,20 +22,31 @@ public class PenaltyKickBall : MonoBehaviour
     {
         ballRB = ballTransform.GetComponent<Rigidbody>();
         inputDirectionKick.OnKick += OnKickHandler;
+        playerMoveToBall.OnPlayerKicked += OnPlayerKickedHandler;
         kickForce = kickForce.normalized;
     }
 
     private void Update()
     {
         // Allready normalized
-        kickForce.y = inputDirectionKick.DirectionKick.y;
-        kickForce.z = inputDirectionKick.DirectionKick.z;
+        if(needUpdateForceDir)
+        {
+            kickForce.y = inputDirectionKick.DirectionKick.y;
+            kickForce.z = inputDirectionKick.DirectionKick.z;
+        }
     }
 
-    private void OnKickHandler(float impact)
+    private void OnKickHandler(float impact, Vector3 dir)
     {
+        needUpdateForceDir = false;
+        kickForce.y = dir.y;
+        kickForce.z = dir.z;
         kickForce *= impact;
-        Debug.Log("kickForce after impactForce: " + kickForce);
+    }
+
+    private void OnPlayerKickedHandler()
+    {
         ballRB.AddForce(kickForce, ForceMode.Impulse);
+        Debug.Log("kickForce on handler: " + kickForce);
     }
 }

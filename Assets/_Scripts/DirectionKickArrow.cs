@@ -14,16 +14,13 @@ public class DirectionKickArrow : MonoBehaviour
         inputDirectionKick.OnKick += OnKickHandler;
     }
 
-    private void OnKickHandler(float impact)
+    private void OnKickHandler(float impact, Vector3 dir)
     {
         lineRenderer.enabled = false;
     }
 
     private void Update()
     {
-        Vector3 targetVector = lineRenderer.GetPosition(1);
-
-        targetVector = penaltyKickBall.KickForce;
 
         lineRenderer.SetPosition(1, penaltyKickBall.KickForce);
 
