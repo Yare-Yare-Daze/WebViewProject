@@ -6,21 +6,35 @@ public class PenaltyKickBall : MonoBehaviour
 {
     [SerializeField] private Transform ballTransform;
     [SerializeField] private Vector3 kickForce;
-    [SerializeField] private float impactForce;
+    [SerializeField] private InputDirectionKick inputDirectionKick;
+
+    private float impactForce;
 
     private Rigidbody ballRB;
+
+    public Vector3 KickForce
+    {
+        get { return kickForce; }
+    }
 
     private void Awake()
     {
         ballRB = ballTransform.GetComponent<Rigidbody>();
+        inputDirectionKick.OnKick += OnKickHandler;
+
+        Debug.Log("kickForce before normalized: " + kickForce);
+        kickForce = kickForce.normalized;
+        Debug.Log("kickForce after normalized: " + kickForce);
     }
 
     private void Start()
     {
-        Debug.Log("kickForce before normalized: " + kickForce);
-        kickForce = kickForce.normalized;
-        Debug.Log("kickForce after normalized: " + kickForce);
-        kickForce *= impactForce;
+
+    }
+
+    private void OnKickHandler(float impact)
+    {
+        kickForce *= impact;
         Debug.Log("kickForce after impactForce: " + kickForce);
         ballRB.AddForce(kickForce, ForceMode.Impulse);
     }
