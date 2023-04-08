@@ -59,6 +59,16 @@ public class InputDirectionKick : MonoBehaviour
                 impactForce = deltaFroceNormalized * maxImpactForce;
                 Debug.Log("impactForce: " + impactForce);
             }
+
+            if(touch.phase == TouchPhase.Moved)
+            {
+                Vector3 touchMoveToViewport = Camera.main.ScreenToViewportPoint(touch.position);
+
+                directionKick.y = touchMoveToViewport.y;
+
+
+                Debug.Log("Touch position: " + touchMoveToViewport);
+            }
         }
     }
 

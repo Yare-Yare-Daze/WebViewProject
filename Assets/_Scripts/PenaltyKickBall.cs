@@ -8,8 +8,6 @@ public class PenaltyKickBall : MonoBehaviour
     [SerializeField] private Vector3 kickForce;
     [SerializeField] private InputDirectionKick inputDirectionKick;
 
-    private float impactForce;
-
     private Rigidbody ballRB;
 
     public Vector3 KickForce
@@ -27,9 +25,9 @@ public class PenaltyKickBall : MonoBehaviour
         Debug.Log("kickForce after normalized: " + kickForce);
     }
 
-    private void Start()
+    private void Update()
     {
-
+        kickForce.y = inputDirectionKick.DirectionKick.y;
     }
 
     private void OnKickHandler(float impact)

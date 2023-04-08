@@ -8,7 +8,7 @@ public class DirectionKickArrow : MonoBehaviour
     [SerializeField] private PenaltyKickBall penaltyKickBall;
 
 
-    private void Start()
+    private void Update()
     {
         Vector3 targetVector = lineRenderer.GetPosition(1);
 
@@ -16,6 +16,6 @@ public class DirectionKickArrow : MonoBehaviour
 
         lineRenderer.SetPosition(1, targetVector);
 
-        Debug.Log("linePosition(1): " + lineRenderer.GetPosition(1));
+        //Debug.Log("linePosition(1): " + lineRenderer.GetPosition(1));
     }
 }
