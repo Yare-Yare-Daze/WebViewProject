@@ -356,6 +356,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 1454887023}
   penaltyKickBall: {fileID: 409675895}
+  inputDirectionKick: {fileID: 409675896}
+  arrowMaterial: {fileID: 1454887023}
 --- !u!1 &466599158
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,18 @@ public class DirectionKickArrow : MonoBehaviour
 {
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private PenaltyKickBall penaltyKickBall;
+    [SerializeField] private InputDirectionKick inputDirectionKick;
+    [SerializeField] private Renderer arrowMaterial;
 
+    private void Awake()
+    {
+        inputDirectionKick.OnKick += OnKickHandler;
+    }
+
+    private void OnKickHandler(float impact)
+    {
+        lineRenderer.enabled = false;
+    }
 
     private void Update()
     {
@@ -14,8 +25,8 @@ public class DirectionKickArrow : MonoBehaviour
 
         targetVector = penaltyKickBall.KickForce;
 
-        lineRenderer.SetPosition(1, targetVector);
+        lineRenderer.SetPosition(1, penaltyKickBall.KickForce);
 
-        //Debug.Log("linePosition(1): " + lineRenderer.GetPosition(1));
+        arrowMaterial.material.color = Color.Lerp(Color.white, Color.green, inputDirectionKick.ImpactForceNormalized);
     }
 }

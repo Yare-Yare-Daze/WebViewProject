@@ -7,7 +7,6 @@ public class InputDirectionKick : MonoBehaviour
 {
     [SerializeField] private float timeToMaxForce;
     [SerializeField] private float maxImpactForce;
-    //[SerializeField] private float speedChangeForce;
 
     private Touch touch;
     private Vector3 directionKick;
@@ -27,9 +26,19 @@ public class InputDirectionKick : MonoBehaviour
         get { return impactForce; }
     }
 
+    public float ImpactForceNormalized
+    {
+        get { return impactForce / maxImpactForce; }
+    }
+
+    private void Start()
+    {
+        
+    }
+
     private void Update()
     {
-        if(Input.touchCount > 0)
+        if (Input.touchCount > 0)
         {
             touch = Input.GetTouch(0);
 
@@ -66,6 +75,14 @@ public class InputDirectionKick : MonoBehaviour
 
                 directionKick.y = touchMoveToViewport.y;
 
+                if (touchMoveToViewport.x < 0.5f)
+                {
+                    directionKick.z = (touchMoveToViewport.x - 0.5f) / 0.5f;
+                }
+                else
+                {
+                    directionKick.z = (touchMoveToViewport.x - 0.5f) / 0.5f;
+                }
 
                 Debug.Log("Touch position: " + touchMoveToViewport);
             }

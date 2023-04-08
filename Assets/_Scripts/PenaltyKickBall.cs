@@ -5,9 +5,9 @@ using UnityEngine;
 public class PenaltyKickBall : MonoBehaviour
 {
     [SerializeField] private Transform ballTransform;
-    [SerializeField] private Vector3 kickForce;
     [SerializeField] private InputDirectionKick inputDirectionKick;
 
+    private Vector3 kickForce;
     private Rigidbody ballRB;
 
     public Vector3 KickForce
@@ -19,15 +19,14 @@ public class PenaltyKickBall : MonoBehaviour
     {
         ballRB = ballTransform.GetComponent<Rigidbody>();
         inputDirectionKick.OnKick += OnKickHandler;
-
-        Debug.Log("kickForce before normalized: " + kickForce);
         kickForce = kickForce.normalized;
-        Debug.Log("kickForce after normalized: " + kickForce);
     }
 
     private void Update()
     {
+        // Allready normalized
         kickForce.y = inputDirectionKick.DirectionKick.y;
+        kickForce.z = inputDirectionKick.DirectionKick.z;
     }
 
     private void OnKickHandler(float impact)
